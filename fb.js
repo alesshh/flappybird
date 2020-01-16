@@ -45,47 +45,47 @@ var loadImages = function(){
 	sky = new Image();
 	sky.src = 'images/sky.png';
 	sky.onload = onImgLoad;
-	
+
 	land = new Image();
 	land.src = 'images/land.png';
 	land.onload = onImgLoad;
-	
+
 	bird = new Image();
-	bird.src = 'images/bird.png';
+	bird.src = 'images/bird-lg.png';
 	bird.onload = onImgLoad;
-	
+
 	pipe = new Image();
 	pipe.src = 'images/pipe.png';
 	pipe.onload = onImgLoad;
-	
+
 	pipeUp = new Image();
 	pipeUp.src = 'images/pipe-up.png';
 	pipeUp.onload = onImgLoad;
-	
+
 	pipeDown = new Image();
 	pipeDown.src = 'images/pipe-down.png';
 	pipeDown.onload = onImgLoad;
-	
+
 	scoreBoard = new Image();
 	scoreBoard.src = 'images/scoreboard.png';
 	scoreBoard.onload = onImgLoad;
-	
+
 	ready = new Image();
 	ready.src = 'images/replay.png';
 	ready.onload = onImgLoad;
-	
+
 	splash = new Image();
 	splash.src = 'images/splash.png';
 	splash.onload = onImgLoad;
 }
 
-function is_touch_device() {  
-  try {  
-    document.createEvent("TouchEvent");  
-    return true;  
-  } catch (e) {  
-    return false;  
-  }  
+function is_touch_device() {
+  try {
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 var initCanvas = function(){
@@ -160,14 +160,14 @@ var drawPipe = function(x, y){
 		pipes.push(Math.floor(Math.random() * (height - 300 - delta) + 10));
 		pipesDir.push((Math.random() > 0.5));
 	}
-	
+
 }
 
 var drawBird = function(){
 //	ctx.translate(width * 0.35 + 17, birdY + 12);
 //	var deg = -Math.atan(birdV / 2) / 3.14159;
 //	ctx.rotate(deg);
-	ctx.drawImage(bird, 0, birdN * 24, bird.width, bird.height / 4, birdPos, birdY, bird.width, bird.height / 4);
+	ctx.drawImage(bird, 0, birdN * 48, bird.width, bird.height / 4, birdPos, birdY, bird.width, bird.height / 4);
 //	ctx.rotate(-deg);
 //	ctx.translate(-width * 0.35 - 17, -birdY - 12);
 	birdF = (birdF + 1) % 6;
