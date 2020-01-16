@@ -3,7 +3,7 @@ var width, height, birdPos;
 var sky, land, bird, pipe, pipeUp, pipeDown, scoreBoard, ready, splash;
 var dist, birdY, birdF, birdN, birdV;
 var animation, death, deathAnim;
-var pipes = [], pipesDir = [], pipeSt, pipeNumber;
+var pipes = [], pipesDir = [], pipeSt, pipeNumber, arrayText = ['City', 'Cidade', 'LEAD_HASH_HELPER', 'PAGE_VISIT'];
 var score, maxScore;
 var dropSpeed;
 var flashlight_switch = false, hidden_switch = false;
@@ -45,47 +45,47 @@ var loadImages = function(){
 	sky = new Image();
 	sky.src = 'images/sky.png';
 	sky.onload = onImgLoad;
-	
+
 	land = new Image();
 	land.src = 'images/land.png';
 	land.onload = onImgLoad;
-	
+
 	bird = new Image();
 	bird.src = 'images/bird.png';
 	bird.onload = onImgLoad;
-	
+
 	pipe = new Image();
 	pipe.src = 'images/pipe.png';
 	pipe.onload = onImgLoad;
-	
+
 	pipeUp = new Image();
 	pipeUp.src = 'images/pipe-up.png';
 	pipeUp.onload = onImgLoad;
-	
+
 	pipeDown = new Image();
 	pipeDown.src = 'images/pipe-down.png';
 	pipeDown.onload = onImgLoad;
-	
+
 	scoreBoard = new Image();
 	scoreBoard.src = 'images/scoreboard.png';
 	scoreBoard.onload = onImgLoad;
-	
+
 	ready = new Image();
 	ready.src = 'images/replay.png';
 	ready.onload = onImgLoad;
-	
+
 	splash = new Image();
 	splash.src = 'images/splash.png';
 	splash.onload = onImgLoad;
 }
 
-function is_touch_device() {  
-  try {  
-    document.createEvent("TouchEvent");  
-    return true;  
-  } catch (e) {  
-    return false;  
-  }  
+function is_touch_device() {
+  try {
+    document.createEvent("TouchEvent");
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 var initCanvas = function(){
@@ -145,9 +145,19 @@ var drawLand = function(){
 	}
 }
 
-var drawPipe = function(x, y){
+var drawPipe = function(x, y, txt){
 	ctx.drawImage(pipe, x, 0, pipe.width, y);
 	ctx.drawImage(pipeDown, x, y);
+	// ctx.save();
+	// ctx.rotate(Math.PI/2);
+	ctx.textAlign = "center";
+// ctx.fillText("Your Label Here", x, y/2);
+	// ctx.rotate(Math.PI/2);
+	ctx.lineWidth = 5;
+  ctx.strokeStyle = '#fff';
+	ctx.fillStyle = '#000';
+	ctx.fillText(txt, x, y/2);
+	// ctx.restore();
 	ctx.drawImage(pipe, x, y + 168 + delta, pipe.width, height - 112);
 	ctx.drawImage(pipeUp, x, y + 144 + delta);
 	if(x < birdPos + 32 && x + 50 > birdPos && (birdY < y + 22 || birdY + 22 > y + 144 + delta)){
@@ -160,7 +170,6 @@ var drawPipe = function(x, y){
 		pipes.push(Math.floor(Math.random() * (height - 300 - delta) + 10));
 		pipesDir.push((Math.random() > 0.5));
 	}
-	
 }
 
 var drawBird = function(){
@@ -186,7 +195,7 @@ var drawBird = function(){
 var drawScore = function(){
 	ctx.font = '20px "Press Start 2P"';
 	ctx.lineWidth = 5;
-    ctx.strokeStyle = '#fff';
+  ctx.strokeStyle = '#fff';
 	ctx.fillStyle = '#000';
 	var txt = "" + score;
 	ctx.strokeText(txt, (width - ctx.measureText(txt).width) / 2, height * 0.15);
@@ -220,8 +229,13 @@ var drawHidden = function() {
 var drawCanvas = function(){
 	clearCanvas();
 	drawSky();
+	j = 0;
 	for(var i = pipeSt; i < pipeNumber; ++i){
-		drawPipe(width - dist + i * 220, pipes[i]);
+		if (arrayText[j] == null) {
+			j = 0;
+		}
+		drawPipe(width - dist + i * 220, pipes[i], arrayText[j]);
+		j++;
 		if(mode == 2){
 			if(pipesDir[i]){
 				if(pipes[i] + 1 > height - 300){
