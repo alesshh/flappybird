@@ -285,9 +285,9 @@ var jump = function(){
 var easy, normal, hard;
 
 function easyMode(){
-	easy.style["box-shadow"] = "0 0 0 2px #165CF3";
-	normal.style["box-shadow"] = "";
-	hard.style["box-shadow"] = "";
+	easy.style["background-color"] = "#ffffff";
+	normal.style["background-color"] = "";
+	hard.style["background-color"] = "";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 0;
@@ -296,9 +296,10 @@ function easyMode(){
 }
 
 function normalMode(){
-	easy.style["box-shadow"] = "";
-	normal.style["box-shadow"] = "0 0 0 2px #165CF3";
-	hard.style["box-shadow"] = "";
+	flashlight(false);
+	easy.style["background-color"] = "";
+	normal.style["background-color"] = "#ffffff";
+	hard.style["background-color"] = "";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 1;
@@ -307,9 +308,10 @@ function normalMode(){
 }
 
 function hardMode(){
-	easy.style["box-shadow"] = "";
-	normal.style["box-shadow"] = "";
-	hard.style["box-shadow"] = "0 0 0 2px #165CF3";
+	flashlight(true);
+	easy.style["background-color"] = "";
+	normal.style["background-color"] = "";
+	hard.style["background-color"] = "#ffffff";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 2;
@@ -317,9 +319,8 @@ function hardMode(){
 	initCanvas();
 }
 
-function flashlight(){
-	document.getElementById("flashlight").style.background = ["red", "rgba(255, 255, 255, 0.6)"][+flashlight_switch];
-	flashlight_switch ^= 1;
+function flashlight(enabled){
+	flashlight_switch = enabled;
 }
 
 function hidden(){
@@ -379,22 +380,19 @@ window.onload = function(){
             Api.generalShare(wxData, wxCallbacks);
         });
     }
-	maxScore = 0;
-	dropSpeed = 0.3;
-	mode = 0;
-	delta = 100;
-	initCanvas();
 	easy = document.getElementById("easy");
     easy.onclick = easyMode;
 	normal = document.getElementById("normal");
     normal.onclick = normalMode;
 	hard = document.getElementById("hard");
     hard.onclick = hardMode;
-	document.getElementById("flashlight").onclick = flashlight;
+  //document.getElementById("flashlight").onclick = flashlight;
 	//document.getElementById("hidden").onclick = hidden;
 	window.onresize = function() {
 		canvas.width = width = window.innerWidth;
 		canvas.height = height = window.innerHeight;
 		drawCanvas();
 	}
+
+  normalMode();
 }
