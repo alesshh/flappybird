@@ -3,7 +3,8 @@ var width, height, birdPos;
 var sky, land, bird, pipe, pipeUp, pipeDown, scoreBoard, ready, splash;
 var dist, birdY, birdF, birdN, birdV;
 var animation, death, deathAnim;
-var pipes = [], pipesDir = [], pipeSt, pipeNumber, arrayText = ['City', 'Cidade', 'LEAD_HASH_HELPER', 'PAGE_VISIT'];
+var pipes = [], pipesDir = [], pipeSt, pipeNumber, arrayText = ['LEAD_HASH_HELPER', 'PAGE_VISIT', 'CAMPO CIDADE', 'LEAD_CREATE_JOB', 'SCHEMA', 'CONVERSION_PAYLOAD', 'PERDA DE EVENTOS', 'CLUSTERING ENGINE', 'BASE DE LEADS'];
+var initialScore;
 var score, maxScore;
 var dropSpeed;
 var flashlight_switch = false, hidden_switch = false;
@@ -145,20 +146,25 @@ var drawLand = function(){
 	}
 }
 
+var drawCDPChallenges = function(x,y,txt,a,b) {
+	ctx.save();
+	ctx.translate(x, y);
+	ctx.rotate(-Math.PI / 2);
+	ctx.font = '15px "Press Start 2P"';
+	ctx.textAlign = "center";
+	ctx.lineWidth = 5;
+	ctx.strokeStyle = '#fff';
+	ctx.fillStyle = '#000';
+	ctx.fillText(txt, a, 30);
+	ctx.restore();
+}
+
 var drawPipe = function(x, y, txt){
 	ctx.drawImage(pipe, x, 0, pipe.width, y);
+	drawCDPChallenges(x, y, txt, 150);
 	ctx.drawImage(pipeDown, x, y);
-	// ctx.save();
-	// ctx.rotate(Math.PI/2);
-	ctx.textAlign = "center";
-// ctx.fillText("Your Label Here", x, y/2);
-	// ctx.rotate(Math.PI/2);
-	ctx.lineWidth = 5;
-  ctx.strokeStyle = '#fff';
-	ctx.fillStyle = '#000';
-	ctx.fillText(txt, x, y/2);
-	// ctx.restore();
 	ctx.drawImage(pipe, x, y + 168 + delta, pipe.width, height - 112);
+	drawCDPChallenges(x, y, txt, -300);
 	ctx.drawImage(pipeUp, x, y + 144 + delta);
 	if(x < birdPos + 32 && x + 50 > birdPos && (birdY < y + 22 || birdY + 22 > y + 144 + delta)){
 		clearInterval(animation);
@@ -170,7 +176,6 @@ var drawPipe = function(x, y, txt){
 		pipes.push(Math.floor(Math.random() * (height - 300 - delta) + 10));
 		pipesDir.push((Math.random() > 0.5));
 	}
-
 }
 
 var drawBird = function(){
@@ -230,13 +235,9 @@ var drawHidden = function() {
 var drawCanvas = function(){
 	clearCanvas();
 	drawSky();
-	j = 0;
 	for(var i = pipeSt; i < pipeNumber; ++i){
-		if (arrayText[j] == null) {
-			j = 0;
-		}
+		j = i % arrayText.length
 		drawPipe(width - dist + i * 220, pipes[i], arrayText[j]);
-		j++;
 		if(mode == 2){
 			if(pipesDir[i]){
 				if(pipes[i] + 1 > height - 300){
