@@ -4,7 +4,7 @@ var sky, land, bird, pipe, pipeUp, pipeDown, scoreBoard, ready, splash;
 var dist, birdY, birdF, birdN, birdV;
 var animation, death, deathAnim;
 var pipes = [], pipesDir = [], pipeSt, pipeNumber;
-var score, maxScore;
+var score, initialScore, maxScore;
 var dropSpeed;
 var flashlight_switch = false, hidden_switch = false;
 var mode, delta;
@@ -29,7 +29,7 @@ var loadImages = function(){
 			birdN = 0;
 			birdV = 0;
 			birdPos = width * 0.35;
-			score = 0;
+			score = initialScore;
 			pipeSt = 0;
 			pipeNumber = 10;
 			pipes = [];
@@ -262,7 +262,7 @@ var jump = function(){
 		birdN = 0;
 		birdV = 0;
 		death = 0;
-		score = 0;
+		score = initialScore;
 		birdPos = width * 0.35;
 		pipeSt = 0;
 		pipeNumber = 10;
@@ -304,6 +304,7 @@ function normalMode(){
 	dropSpeed = 0.3;
 	mode = 1;
 	delta = 0;
+	initialScore = 0;
 	initCanvas();
 }
 
@@ -316,6 +317,7 @@ function hardMode(){
 	dropSpeed = 0.3;
 	mode = 2;
 	delta = 0;
+	initialScore = 44;
 	initCanvas();
 }
 
@@ -331,7 +333,7 @@ function hidden(){
 window.onload = function(){
     //document.addEventListener("touchend", function(e) { e.preventDefault(); }, false);
     mode = 0;
-    score = 0;
+    score = initialScore;
     playdata = [0, 0];
     if(window.window.WeixinApi || window.WeixinJSBridge) {
         wechat = true;
