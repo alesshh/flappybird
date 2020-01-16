@@ -13,6 +13,9 @@ var wechat = false;
 var playend = false, playdata = [];
 var wxData;
 
+var email = null;
+var rdsmToken = '46eb4334cb90d5f548784cabeeb797d0';
+
 var clearCanvas = function(){
 	ctx.fillStyle = '#4EC0CA';
 	ctx.fillRect(0, 0, width, height);
@@ -272,6 +275,8 @@ var anim = function(){
 
 var jump = function(){
 	if(death){
+		sendToCdp(score);
+
 		dist = 0;
 		birdY = (height - 112) / 2;
 		birdF = 0;
@@ -346,6 +351,35 @@ function hidden(){
 	hidden_switch ^= 1;
 }
 
+function askPlayerData() {
+  email = prompt("Preencha seu e-mail");
+}
+
+function sendToCdp(gameScore) {
+  var url = 'http://localhost:3000/api/1.2/conversions'
+  var data = {
+    identificador: 'jogo',
+    email: email,
+    game_score: gameScore,
+    token_rdstation: rdsmToken,
+  };
+
+  console.log(data);
+
+  fetch(url, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(function(response) {
+    return response.json();
+  }).then(function(data) {
+    console.log(data);
+  });
+}
+
 window.onload = function(){
     //document.addEventListener("touchend", function(e) { e.preventDefault(); }, false);
     mode = 0;
@@ -413,4 +447,5 @@ window.onload = function(){
 	}
 
   normalMode();
+  askPlayerData();
 }
