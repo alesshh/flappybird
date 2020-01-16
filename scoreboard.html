@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Scoreboard</title>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="scores.js"></script>
+
+        <script type="text/javascript">
+
+            $(function() {
+                var $scores = $("#scores");
+
+                for(var i=0; i<scores.length; i++) {
+                    var score = scores[i]
+                    $scores.append('<div>' + score['email'] + ': ' + score['score'] + '</div>')
+                }
+
+                setInterval(function() {
+                    window.location.reload();
+                }, 5 * 1000);
+            });
+        </script>
+    </head>
+
+    <body>
+        <h1>Scoreboard</h1>
+        <div id="scores"></div>
+    </body>
+</html>
