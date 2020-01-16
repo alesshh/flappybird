@@ -29,7 +29,7 @@ var loadImages = function(){
 			birdN = 0;
 			birdV = 0;
 			birdPos = width * 0.35;
-			score = 0;
+			score = initialScore;
 			pipeSt = 0;
 			pipeNumber = 10;
 			pipes = [];
@@ -51,7 +51,7 @@ var loadImages = function(){
 	land.onload = onImgLoad;
 
 	bird = new Image();
-	bird.src = 'images/bird.png';
+	bird.src = 'images/bird-lg.png';
 	bird.onload = onImgLoad;
 
 	pipe = new Image();
@@ -170,13 +170,14 @@ var drawPipe = function(x, y, txt){
 		pipes.push(Math.floor(Math.random() * (height - 300 - delta) + 10));
 		pipesDir.push((Math.random() > 0.5));
 	}
+
 }
 
 var drawBird = function(){
 //	ctx.translate(width * 0.35 + 17, birdY + 12);
 //	var deg = -Math.atan(birdV / 2) / 3.14159;
 //	ctx.rotate(deg);
-	ctx.drawImage(bird, 0, birdN * 24, bird.width, bird.height / 4, birdPos, birdY, bird.width, bird.height / 4);
+	ctx.drawImage(bird, 0, birdN * 48, bird.width, bird.height / 4, birdPos, birdY, bird.width, bird.height / 4);
 //	ctx.rotate(-deg);
 //	ctx.translate(-width * 0.35 - 17, -birdY - 12);
 	birdF = (birdF + 1) % 6;
@@ -276,7 +277,7 @@ var jump = function(){
 		birdN = 0;
 		birdV = 0;
 		death = 0;
-		score = 0;
+		score = initialScore;
 		birdPos = width * 0.35;
 		pipeSt = 0;
 		pipeNumber = 10;
@@ -299,9 +300,9 @@ var jump = function(){
 var easy, normal, hard;
 
 function easyMode(){
-	easy.style["box-shadow"] = "0 0 0 2px #165CF3";
-	normal.style["box-shadow"] = "";
-	hard.style["box-shadow"] = "";
+	easy.style["background-color"] = "#ffffff";
+	normal.style["background-color"] = "";
+	hard.style["background-color"] = "";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 0;
@@ -310,30 +311,33 @@ function easyMode(){
 }
 
 function normalMode(){
-	easy.style["box-shadow"] = "";
-	normal.style["box-shadow"] = "0 0 0 2px #165CF3";
-	hard.style["box-shadow"] = "";
+	flashlight(false);
+	easy.style["background-color"] = "";
+	normal.style["background-color"] = "#ffffff";
+	hard.style["background-color"] = "";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 1;
 	delta = 0;
+	initialScore = 0;
 	initCanvas();
 }
 
 function hardMode(){
-	easy.style["box-shadow"] = "";
-	normal.style["box-shadow"] = "";
-	hard.style["box-shadow"] = "0 0 0 2px #165CF3";
+	flashlight(true);
+	easy.style["background-color"] = "";
+	normal.style["background-color"] = "";
+	hard.style["background-color"] = "#ffffff";
 	clearInterval(animation);
 	dropSpeed = 0.3;
 	mode = 2;
 	delta = 0;
+	initialScore = 44;
 	initCanvas();
 }
 
-function flashlight(){
-	document.getElementById("flashlight").style.background = ["red", "rgba(255, 255, 255, 0.6)"][+flashlight_switch];
-	flashlight_switch ^= 1;
+function flashlight(enabled){
+	flashlight_switch = enabled;
 }
 
 function hidden(){
@@ -344,7 +348,7 @@ function hidden(){
 window.onload = function(){
     //document.addEventListener("touchend", function(e) { e.preventDefault(); }, false);
     mode = 0;
-    score = 0;
+    score = initialScore;
     playdata = [0, 0];
     if(window.window.WeixinApi || window.WeixinJSBridge) {
         wechat = true;
@@ -393,22 +397,19 @@ window.onload = function(){
             Api.generalShare(wxData, wxCallbacks);
         });
     }
-	maxScore = 0;
-	dropSpeed = 0.3;
-	mode = 0;
-	delta = 100;
-	initCanvas();
 	easy = document.getElementById("easy");
     easy.onclick = easyMode;
 	normal = document.getElementById("normal");
     normal.onclick = normalMode;
 	hard = document.getElementById("hard");
     hard.onclick = hardMode;
-	document.getElementById("flashlight").onclick = flashlight;
+  //document.getElementById("flashlight").onclick = flashlight;
 	//document.getElementById("hidden").onclick = hidden;
 	window.onresize = function() {
 		canvas.width = width = window.innerWidth;
 		canvas.height = height = window.innerHeight;
 		drawCanvas();
 	}
+
+  normalMode();
 }
