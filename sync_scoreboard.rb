@@ -6,10 +6,10 @@ require 'json'
 uri = 'postgres://postgres:postgres@localhost:5656/cdp_core_db'
 
 query = <<~SQL
-  select string_field_value_1 as email, string_field_value_15 as score
+  select string_field_value_6 as email, string_field_value_14 as score
   from entities
-  where string_field_value_1 is not null
-  order by 2;
+  where string_field_value_6 is not null
+  order by 2 desc;
 SQL
 
 loop do

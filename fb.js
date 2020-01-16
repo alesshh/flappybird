@@ -5,7 +5,7 @@ var dist, birdY, birdF, birdN, birdV;
 var animation, death, deathAnim;
 var pipes = [], pipesDir = [], pipeSt, pipeNumber, arrayText = ['LEAD_HASH_HELPER', 'PAGE_VISIT', 'CAMPO CIDADE', 'LEAD_CREATE_JOB', 'SCHEMA', 'CONVERSION_PAYLOAD', 'PERDA DE EVENTOS', 'CLUSTERING ENGINE', 'BASE DE LEADS'];
 var initialScore;
-var score, maxScore;
+var score, maxScore = 0;
 var dropSpeed;
 var flashlight_switch = false, hidden_switch = false;
 var mode, delta;
@@ -126,6 +126,8 @@ var deathAnimation = function(){
     }
 	ctx.drawImage(ready, width / 2 - 57, height / 2 + 10);
 	maxScore = Math.max(maxScore, score);
+  sendToCdp(maxScore);
+
 }
 
 var drawSky = function(){
@@ -275,8 +277,6 @@ var anim = function(){
 
 var jump = function(){
 	if(death){
-		sendToCdp(score);
-
 		dist = 0;
 		birdY = (height - 112) / 2;
 		birdF = 0;
@@ -352,7 +352,7 @@ function hidden(){
 }
 
 function askPlayerData() {
-  email = prompt("Preencha seu e-mail");
+  email = prompt("Preencha seu nome");
 }
 
 function sendToCdp(gameScore) {
